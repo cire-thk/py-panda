@@ -3,7 +3,7 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "py-panda"
+name = "pypanda"
 version = "0.1.0"
 description = "Convert spectra to PANDA format"
 authors = [{ name = "Markus de Koster" }]

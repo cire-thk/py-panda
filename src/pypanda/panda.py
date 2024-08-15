@@ -1,6 +1,19 @@
+import logging
 from typing import Sequence
 
 import numpy as np
+
+logger = logging.getLogger(__name__)
+
+
+def wrap_angles(degrees: Sequence[float]):
+    """
+    Wrap a list of angles in degrees to the range [0, 360).
+    :param degrees: Sequence of angles in degree
+    :return wrapped sequence
+    """
+    wrapped_degrees = [(angle % 360) for angle in degrees]
+    return wrapped_degrees
 
 
 class PandaFile:
@@ -191,11 +204,16 @@ class PandaFile:
         Args:
         harmonic_orders (list): List of harmonic orders.
         magnitudes_rms (list): List of RMS magnitudes.
-        phase_angle_degree (list): List of phase angles in degrees.
+        phase_angle_degree (list): List of phase angles in degree between 0° and 360°
 
         Returns:
         str: The harmonic spectrum as a string in the PANDA file format.
         """
+        if not any(value > np.pi for value in phase_angle_degree):
+            logger.warning(f"Ensure all phase angles are in degree (No angle greater than Pi recorded)")
+        if any(value > 360 or value < 0 for value in phase_angle_degree):
+            phase_angle_degree = wrap_angles(phase_angle_degree)
+            logger.info(f"Phase angles exceeding allowed range [0°..360°] detected. Wrapping angles to allowed range.")
         if len(harmonic_orders) != len(magnitudes_rms) or len(harmonic_orders) != len(phase_angle_degree):
             raise ValueError("Length of harmonics, magnitudes and phases must be equal.")
         # Value pairs with a magnitude of zero, which means below the accuracy limit of the
