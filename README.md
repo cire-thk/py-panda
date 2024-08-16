@@ -5,6 +5,8 @@ Link: [PANDA TU Dresden](https://www.panda.et.tu-dresden.de/cgi-bin/PANDA.cgi)
 File format is proprietary to Technische Universität Dresden.
 
 ## Build
+Clone the repository, navigate to the root directory and run:
+
 ```bash
 pip install -e .
 ```
@@ -17,4 +19,3 @@ for regular installation.
 
 ## Contributing
 Pull requests are welcome. 
-For now, only the latest version of the PANDA file format is supported.
